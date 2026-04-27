@@ -10,7 +10,7 @@ export default function IngresosPage() {
   const [descripcion, setDescripcion] = useState("");
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState("");
-  const [ingresos, setIngresos] = useState([]);
+  const [ingresos, setIngresos] = useState<any[]>([]);
 
   const cargarIngresos = async () => {
     const { data } = await supabase
