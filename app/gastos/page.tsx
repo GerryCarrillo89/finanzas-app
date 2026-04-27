@@ -10,7 +10,7 @@ export default function GastosPage() {
   const [descripcion, setDescripcion] = useState("");
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState("");
-  const [gastos, setGastos] = useState([]);
+  const [gastos, setGastos] = useState<any[]>([]);
 
   const cargarGastos = async () => {
     const { data } = await supabase
