@@ -1,10 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { extractTextFromPDF } from "@/components/pdfReader";
 
 export default function ImportarEstadosPage() {
   const [texto, setTexto] = useState<string[] | null>(null);
+
+  async function extractTextFromPDF(file: File): Promise<string[]> {
+    const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs");
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+    const pages: string[] = [];
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+
+      const strings = content.items.map((item: any) => item.str);
+      pages.push(strings.join(" "));
+    }
+
+    return pages;
+  }
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
