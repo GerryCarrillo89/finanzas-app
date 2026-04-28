@@ -1,5 +1,5 @@
 "use client";
-
+import { DocumentArrowUpIcon } from "@heroicons/react/24/outline";
 import {
   HomeIcon,
   ArrowTrendingUpIcon,
@@ -42,6 +42,11 @@ export default function Sidebar() {
         <a href="/reportes" className={linkClasses("/reportes")}>
           <ChartBarIcon className="h-5 w-5" />
           Reportes
+        </a>
+
+        <a href="/importar-estados" className={linkClasses("/importar-estados")}>
+          <DocumentArrowUpIcon className="h-5 w-5" />
+          Importar estados
         </a>
 
       </nav>

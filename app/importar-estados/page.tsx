@@ -1,29 +1,35 @@
 "use client";
 
+import { useState } from "react";
+import { extractTextFromPDF } from "@/lib/pdfReader";
+
 export default function ImportarEstadosPage() {
+  const [texto, setTexto] = useState<string[] | null>(null);
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const pages = await extractTextFromPDF(file);
+    setTexto(pages);
+  }
+
   return (
     <div className="p-6 space-y-4">
       <h1 className="text-2xl font-bold">Importar estados de cuenta</h1>
-      <p className="text-sm text-gray-500">
-        Sube tus estados de cuenta en PDF (BBVA, Santander) para convertirlos en movimientos y analizarlos por categorías.
-      </p>
 
-      <div className="mt-4 border rounded-lg p-4 bg-white">
-        <p className="text-sm text-gray-600 mb-2">
-          Paso 1: selecciona el archivo PDF de tu banco.
-        </p>
-        <input
-          type="file"
-          accept="application/pdf"
-          className="text-sm"
-        />
-      </div>
+      <input type="file" accept="application/pdf" onChange={handleFile} />
 
-      {/* Aquí luego vamos a mostrar:
-          - Detección de banco
-          - Vista previa de movimientos
-          - Botón para guardar en Supabase
-      */}
+      {texto && (
+        <div className="mt-4 p-4 bg-gray-100 rounded">
+          <h2 className="font-semibold mb-2">Texto extraído:</h2>
+          {texto.map((t, i) => (
+            <pre key={i} className="text-xs whitespace-pre-wrap">
+              {t}
+            </pre>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
