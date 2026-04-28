@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { extractTextFromPDF } from "@/lib/pdfReader";
+import { extractTextFromPDF } from "@/components/pdfReader";
 
 export default function ImportarEstadosPage() {
   const [texto, setTexto] = useState<string[] | null>(null);
